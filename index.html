@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>福利彩票</title>
+		<script src="js/jquery.min.js"></script>
+	</head>
+	<body>
+		<div class="header">
+			<h1>今日开奖</h1>
+		</div>
+		<div class="middleone">
+			<img src="image/6.jpg" width="98%" height="98%">
+		</div>
+		<div class="middletwo">
+		<p class="a" id='a'></p>
+		<p>&nbsp;</p>
+		<p id='b'></p>
+		<p>&nbsp;</p>
+		<p id='c'>
+			<table>
+				<tr>
+					<td class="pt"  id="pt1"></td>
+					<td class="pt"  id="pt2"></td>
+					<td class="pt"  id="pt3"></td>
+					<td class="pt"  id="pt4"></td>
+					<td class="pt"  id="pt5"></td>
+					<td class="pt"  id="pt6"></td>
+					<td class="ssq" id="pt7"></td>
+				</tr>
+			</table>
+		</p>
+		</div>
+		<div class="footer">
+			<!-- <img src="image/7.jpg"  align="center" >
+			<img src="image/8.jpg"  align="center" > -->
+		<p  class="d" align="center">安溪县虎邱镇金榜村242号福利彩票店</p>
+		</div>
+	</body> 
+	<style>
+	   *{
+		   margin: 0;
+		   padding: 0;
+	   }
+	   
+	   table{
+		   margin:0 auto
+		   }
+		   
+       html , body{
+		     padding: 0 !important;
+			 width: 100%;
+			 height: 100%;
+			 overflow: hidden;
+	         background: url(image/5.jpg) no-repeat center center fixed;
+             -webkit-background-size: cover;
+             -moz-background-size: cover;
+             -o-background-size: cover;
+             background-size: cover;
+			 z-index: 1;
+           }
+	   
+	   .header {
+		   position: absolute;
+		   top: 30px;
+		   width: 100%;
+		   height: 120px;
+		   line-height: 120px;
+		   text-align: center;
+	   }
+	   
+	   .middleone {
+		   -webkit-background-size: cover;
+		   -moz-background-size: cover;
+		   -o-background-size: cover;
+		   background-size: cover;
+		   filter:alpha(Opacity=10);
+		   -moz-opacity:0.1;
+		   opacity: 0.1;
+		   position: absolute !important;
+		   top:140px !important;           height:auto !important;           position:relative;
+		   top:-140px;
+		   height: 100%;
+		   bottom: 210px;
+		   width: 100%;
+		   overflow: hidden;
+		   text-align: center;
+		   z-index: 5;
+	   }
+	   .middletwo{
+		   position: absolute !important;
+		   top:140px !important;
+		   height:auto !important;
+		   position:relative;
+		   top:-140px;
+		   height: 100%;
+		   bottom: 210px;
+		   width: 100%;
+		   overflow: hidden;
+		   text-align: center;
+		   z-index: 6;
+	   }  
+		.middletwo p {
+			font-family: "微软雅黑";
+			font-size: 20px;
+			color: whitesmoke;
+		}
+		.pt {
+			  width: 30px;
+			  height: 30px; 
+			  line-height: 30px;
+			  text-align: center;
+			  display: inline-block; 
+			  background: red;
+			  text-decoration: none;
+			  color: whitesmoke; 
+			  border-radius: 50%;
+		}	
+		.ssq {
+			width: 30px;
+			height: 30px; 
+			line-height: 30px;
+			text-align: center;
+			display: inline-block; 
+			background: royalblue;
+			text-decoration: none;
+			color: whitesmoke; 
+			border-radius: 50%;
+		}
+		
+		
+	   .footer {
+		   position: absolute;
+	       bottom: 6px;
+		   width: 100%;
+	 	   height: 180px;
+		   text-align: center;  
+	   }
+	  /* 
+	   .footer img {
+		   width:120px;
+		   height:120px;
+		   filter:alpha(Opacity=50);
+		   -moz-opacity:0.5;
+		   opacity: 0.5;
+	   } */
+	    .a {
+		   padding-top: 24%;
+	   } 
+	  /* .d {
+		  position: absolute;
+		  left: 0;
+		  right: 0;
+		  bottom: 10px; 
+	   } */
+	</style> 
+	<script>
+		$(document).ready(function(){
+			$.ajax({
+				url:'http://f.apiplus.cn/ssq-1.json',
+				dataType:'jsonp',
+				type:'POST',
+				cache:false,
+				timeout:5000,
+				jsonp:'callback',
+				success:function(result){
+					for(var i=0 ;i<result.data.length;i++){
+						var p = result.data[i].expect;
+						var str = result.data[i].opentime;
+						var opencode = result.data[i].opencode ;
+						$('#a').append(dealDate(str.toString()));
+						$('#b').append('双色球第'+p.substr(0,8)+'期');
+						dealOpen(opencode.toString());
+					}
+				},
+				error:function(){
+					alert("加载彩票数据出错！");
+				}
+			});
+		});
+		function dealDate(str){
+				var arr1 = str.split(" ");
+				var arr2 = arr1[0].split("-");
+				var date = new Date(arr2[0],arr2[1]-1,arr2[2]);
+				var weekday = new Array(7);
+				weekday[0]= "星期天" ;
+				weekday[1]= "星期一" ;
+				weekday[2]= "星期二" ;
+				weekday[3]= "星期三" ;
+				weekday[4]= "星期四" ;
+				weekday[5]= "星期五" ;
+				weekday[6]= "星期六" ;
+				return arr2[0]+'年'+arr2[1]+'月'+arr2[2]+'日 '+weekday[date.getDay()];
+		}
+		function dealOpen(code){
+			code = code.replace("+",",");
+			var arr = code.split(",");
+			$("#pt1").append('<strong>'+arr[0]+'</strong>');
+			$("#pt2").append('<strong>'+arr[1]+'</strong>');
+			$("#pt3").append('<strong>'+arr[2]+'</strong>');
+			$("#pt4").append('<strong>'+arr[3]+'</strong>');
+			$("#pt5").append('<strong>'+arr[4]+'</strong>');
+			$("#pt6").append('<strong>'+arr[5]+'</strong>');
+			$("#pt7").append('<strong>'+arr[6]+'</strong>');
+		}
+		
+	</script>
+</html>
+
+
