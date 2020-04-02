@@ -192,8 +192,8 @@
 						ssqOpen(opencode.toString());
 					
 				},
-				error:function(){
-					alert("加载彩票数据出错！");
+				error:function(e){
+					alert(e);
 				}
 			});
 		});
@@ -211,9 +211,7 @@
 						$('#d').append('3D 第'+p.substr(0,8)+'期');
 						fc3dOpen(opencode.toString());
 					
-				},
-				error:function(){
-					alert("加载彩票数据出错！");
+				}
 				}
 			});
 		});
