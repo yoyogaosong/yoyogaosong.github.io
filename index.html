@@ -31,10 +31,20 @@
 				</tr>
 			</table>
 		</p>
+		<p>&nbsp;</p>
+		<p id='d'></p>
+		<p>&nbsp;</p>
+		<p id='e'>
+			<table>
+				<tr>
+					<td class="pt"  id="f1"></td>
+					<td class="pt"  id="f2"></td>
+					<td class="pt"  id="f3"></td>
+				</tr>
+			</table>
+		</p>
 		</div>
 		<div class="footer">
-			<!-- <img src="image/7.jpg"  align="center" >
-			<img src="image/8.jpg"  align="center" > -->
 		<p  class="d" align="center">安溪县虎邱镇金榜村福利彩票店</p>
 		</div>
 	</body>
@@ -142,7 +152,7 @@
 		   position: absolute;
 	       bottom: 6px;
 		   width: 100%;
-	 	   height: 180px;
+	 	   height: 18px;
 		   text-align: center;
 		   font-size: 18px;
 	   }
@@ -168,27 +178,54 @@
 	<script>
 		$(document).ready(function(){
 			$.ajax({
-				url:'https://f.apiplus.cn/ssq-1.json',
+				url:'http://f.apiplus.net/newly.do?code=ssq&format=json',
 				dataType:'jsonp',
 				type:'POST',
 				cache:false,
 				timeout:5000,
 				jsonp:'callback',
 				success:function(result){
-					for(var i=0 ;i<result.data.length;i++){
-						var p = result.data[i].expect;
-						var str = result.data[i].opentime;
-						var opencode = result.data[i].opencode ;
+						var p = result.data[0].expect;
+						var str = result.data[0].opentime;
+						var opencode = result.data[0].opencode ;
 						$('#a').append(dealDate(str.toString()));
 						$('#b').append('双色球第'+p.substr(0,8)+'期');
-						dealOpen(opencode.toString());
-					}
+						ssqOpen(opencode.toString());
+					
 				},
 				error:function(){
 					alert("加载彩票数据出错！");
 				}
 			});
 		});
+		$(document).ready(function(){
+			$.ajax({
+				url:'http://f.apiplus.net/newly.do?code=fc3d&format=json',
+				dataType:'jsonp',
+				type:'POST',
+				cache:false,
+				timeout:5000,
+				jsonp:'callback',
+				success:function(result){
+						var p = result.data[0].expect;
+						var str = result.data[0].opentime;
+						var opencode = result.data[0].opencode ;
+						$('#d').append('3D 第'+p.substr(0,8)+'期');
+						fc3dOpen(opencode.toString());
+					
+				},
+				error:function(){
+					alert("加载彩票数据出错！");
+				}
+			});
+		});
+		
+		
+		
+		
+		
+		
+		
 		function dealDate(str){
 				var arr1 = str.split(" ");
 				var arr2 = arr1[0].split("-");
@@ -203,7 +240,7 @@
 				weekday[6]= "星期六" ;
 				return arr2[0]+'年'+arr2[1]+'月'+arr2[2]+'日 '+weekday[date.getDay()];
 		}
-		function dealOpen(code){
+		function ssqOpen(code){
 			code = code.replace("+",",");
 			var arr = code.split(",");
 			$("#pt1").append('<strong>'+arr[0]+'</strong>');
@@ -213,6 +250,15 @@
 			$("#pt5").append('<strong>'+arr[4]+'</strong>');
 			$("#pt6").append('<strong>'+arr[5]+'</strong>');
 			$("#pt7").append('<strong>'+arr[6]+'</strong>');
+		}
+		
+		function fc3dOpen(code){
+		code = code.replace("+",",");
+			var arr = code.split(",");
+			var arr = code.split(",");
+			$("#f1").append('<strong>'+arr[0]+'</strong>');
+			$("#f2").append('<strong>'+arr[1]+'</strong>');
+			$("#f3").append('<strong>'+arr[2]+'</strong>');
 		}
 
 	</script>
